@@ -1,7 +1,7 @@
 package spring.coding.handler;
 
 import spring.coding.entity.Student;
-import spring.coding.service.StudentService;
+import spring.coding.repository.StudentRepository;
 import spring.coding.ui.ConsoleUtil;
 
 import java.util.LinkedHashMap;
@@ -10,10 +10,10 @@ import java.util.Map;
 
 public class StudentMenuHandler {
 
-    private final StudentService studentService;
+    private final StudentRepository studentRepository;
 
-    public StudentMenuHandler(StudentService studentService) {
-        this.studentService = studentService;
+    public StudentMenuHandler(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
     }
 
     public void handle() {
@@ -32,16 +32,16 @@ public class StudentMenuHandler {
         String email = ConsoleUtil.getStringInput("Enter Email (or leave blank): ");
         String batch = ConsoleUtil.getStringInput("Enter Batch: ");
         if (email.isBlank()) {
-            studentService.addStudentWithoutEmail(fName, lName, batch);
+            studentRepository.addStudentWithoutEmail(fName, lName, batch);
         } else {
-            studentService.addStudent(fName, lName, email, batch);
+            studentRepository.addStudent(fName, lName, email, batch);
         }
         System.out.println("Student added successfully!");
     }
 
     private void removeStudent() {
         int studentId = ConsoleUtil.getIntInput("Enter student ID to remove: ");
-        studentService.removeStudent(studentId);
+        studentRepository.removeStudent(studentId);
         System.out.println("Student removed successfully.");
     }
 
@@ -49,13 +49,13 @@ public class StudentMenuHandler {
         int updateId = ConsoleUtil.getIntInput("Enter student ID to update: ");
         String newBatch = ConsoleUtil.getStringInput("Enter new Batch: ");
         String newEmail = ConsoleUtil.getStringInput("Enter new Email: ");
-        studentService.updateStudent(updateId, newBatch, newEmail);
+        studentRepository.updateStudent(updateId, newBatch, newEmail);
         System.out.println("Student updated successfully.");
     }
 
     private void viewAllStudents() {
         System.out.println("\n--- All Students ---");
-        List<Student> allStudents = studentService.listStudents();
+        List<Student> allStudents = studentRepository.listStudents();
         if (allStudents.isEmpty()) {
             System.out.println("No students found.");
         } else {

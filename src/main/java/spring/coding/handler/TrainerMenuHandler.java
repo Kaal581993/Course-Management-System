@@ -1,7 +1,7 @@
 package spring.coding.handler;
 
 import spring.coding.entity.Trainer;
-import spring.coding.service.TrainerService;
+import spring.coding.repository.TrainerRepository;
 import spring.coding.ui.ConsoleUtil;
 
 import java.util.LinkedHashMap;
@@ -10,10 +10,10 @@ import java.util.Map;
 
 public class TrainerMenuHandler {
 
-    private final TrainerService trainerService;
+    private final TrainerRepository trainerRepository;
 
-    public TrainerMenuHandler(TrainerService trainerService) {
-        this.trainerService = trainerService;
+    public TrainerMenuHandler(TrainerRepository trainerRepository) {
+        this.trainerRepository = trainerRepository;
     }
 
     public void handle() {
@@ -28,13 +28,13 @@ public class TrainerMenuHandler {
         String fName = ConsoleUtil.getStringInput("Enter First Name: ");
         String lName = ConsoleUtil.getStringInput("Enter Last Name: ");
         String email = ConsoleUtil.getStringInput("Enter Email: ");
-        trainerService.addTrainer(fName, lName, email);
+        trainerRepository.addTrainer(fName, lName, email);
         System.out.println("Trainer added successfully!");
     }
 
     private void viewAllTrainers() {
         System.out.println("\n--- All Trainers ---");
-        List<Trainer> allTrainers = trainerService.listTrainer();
+        List<Trainer> allTrainers = trainerRepository.listTrainer();
         if (allTrainers.isEmpty()) {
             System.out.println("No trainers found.");
         } else {
