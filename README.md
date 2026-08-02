@@ -45,7 +45,7 @@ The application runs entirely in the console and uses in-memory `ArrayLists` to 
 4.  **Run the application**:
     Execute the main class from the root directory, making sure to specify the `bin` directory in the classpath.
     ```sh
-    java -cp bin spring.coding.App
+    java -cp bin com.airtribe.learntrack.App
     ```
     You should now see the main menu in your console.
 

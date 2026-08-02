@@ -14,7 +14,7 @@ For storing the lists of students, courses, and enrollments, `ArrayList` was cho
 
 Static members were used intentionally and exclusively in the `IdGenerator` utility class.
 
-*   **Class**: `spring.coding.util.IdGenerator`
+*   **Class**: `util.com.airtribe.learntrack.IdGenerator`
 *   **Static Members**:
     *   `private static int studentIdCounter;`
     *   `public static int getNextStudentId()`
