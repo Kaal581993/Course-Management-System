@@ -1,0 +1,28 @@
+package com.airtribe.learntrack.util;
+
+public class IdGenerator {
+    private static int studentIdCounter = 0;
+    private static int courseIdCounter = 0;
+    private static int enrollmentIdCounter = 0;
+    private static int tranerIdCounter =0;
+    private static int personIdCounter=0;
+
+    public static int getNextStudentId() {
+        return ++studentIdCounter;
+    }
+
+    public static int getNextCourseId() {
+        return ++courseIdCounter;
+    }
+
+    public static int getNextEnrollmentId() {
+        return ++enrollmentIdCounter;
+    }
+
+    public static  int getNextTrainerId(){
+        return ++tranerIdCounter;
+    }
+
+    public static int getNextPersonId(){return ++personIdCounter;}
+}
+    
