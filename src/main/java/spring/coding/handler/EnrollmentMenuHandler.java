@@ -2,6 +2,7 @@ package spring.coding.handler;
 
 import spring.coding.entity.Enrollment;
 import spring.coding.entity.Status;
+import spring.coding.repository.EnrollmentRepository;
 import spring.coding.service.EnrollmentService;
 import spring.coding.ui.ConsoleUtil;
 
@@ -12,9 +13,11 @@ import java.util.Map;
 
 public class EnrollmentMenuHandler {
 
+    private final EnrollmentRepository enrollmentRepository;
     private final EnrollmentService enrollmentService;
 
-    public EnrollmentMenuHandler(EnrollmentService enrollmentService) {
+    public EnrollmentMenuHandler(EnrollmentRepository enrollmentRepository, EnrollmentService enrollmentService) {
+        this.enrollmentRepository = enrollmentRepository;
         this.enrollmentService = enrollmentService;
     }
 
@@ -29,7 +32,7 @@ public class EnrollmentMenuHandler {
 
     private void enrollStudent() {
         int studentId = ConsoleUtil.getIntInput("Enter Student ID: ");
-        enrollmentService.addEnrollment(1, 1, studentId, new Date(), Status.ACTIVE);
+        enrollmentRepository.addEnrollment(1, 1, studentId, new Date(), Status.ACTIVE);
         System.out.println("Enrollment successful!");
     }
 
@@ -55,7 +58,7 @@ public class EnrollmentMenuHandler {
 
     private void viewAllEnrollments() {
         System.out.println("\n--- All Enrollments ---");
-        List<Enrollment> allEnrollments = enrollmentService.listEnrollment();
+        List<Enrollment> allEnrollments = enrollmentRepository.listEnrollment();
         if (allEnrollments.isEmpty()) {
             System.out.println("No enrollments found.");
         } else {

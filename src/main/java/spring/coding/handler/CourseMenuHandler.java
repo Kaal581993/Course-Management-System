@@ -1,7 +1,7 @@
 package spring.coding.handler;
 
 import spring.coding.entity.Course;
-import spring.coding.service.CourseService;
+import spring.coding.repository.CourseRepository;
 import spring.coding.ui.ConsoleUtil;
 
 import java.util.LinkedHashMap;
@@ -10,10 +10,10 @@ import java.util.Map;
 
 public class CourseMenuHandler {
 
-    private final CourseService courseService;
+    private final CourseRepository courseRepository;
 
-    public CourseMenuHandler(CourseService courseService) {
-        this.courseService = courseService;
+    public CourseMenuHandler(CourseRepository courseRepository) {
+        this.courseRepository = courseRepository;
     }
 
     public void handle() {
@@ -28,13 +28,13 @@ public class CourseMenuHandler {
         String name = ConsoleUtil.getStringInput("Enter Course Name: ");
         String desc = ConsoleUtil.getStringInput("Enter Description: ");
         int duration = ConsoleUtil.getIntInput("Enter Duration in Weeks: ");
-        courseService.addCourse(name, 0, desc, duration, true);
+        courseRepository.addCourse(name, 0, desc, duration, true);
         System.out.println("Course added successfully!");
     }
 
     private void viewAllCourses() {
         System.out.println("\n--- All Courses ---");
-        List<Course> allCourses = courseService.listCourse();
+        List<Course> allCourses = courseRepository.listCourse();
         if (allCourses.isEmpty()) {
             System.out.println("No courses found.");
         } else {
