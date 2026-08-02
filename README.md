@@ -6,10 +6,10 @@ LearnTrack is a console-based management system built with Core Java. It allows 
 
 This application provides functionalities for managing educational records. Key features include:
 - **Student Management**: Add, remove, update, and list students.
-- **Course Management**: Manage course information.
-- **Enrollment Management**: Enroll students in courses and track their status.
+- **Course Management**: Manage course information and activate/deactivate them.
+- **Enrollment Management**: Enroll students and update their enrollment status (e.g., to COMPLETED or CANCELLED).
 
-The application runs entirely in the console and uses in-memory `ArrayLists` to store data, meaning all data is reset when the application closes.
+The application runs entirely in the console and uses in-memory `ArrayLists` to store data. All data is reset when the application closes. It features a robust, menu-driven UI with comprehensive exception handling.
 
 ## How to Compile and Run
 
@@ -21,38 +21,72 @@ The application runs entirely in the console and uses in-memory `ArrayLists` to 
     ```sh
     git clone <your-repository-url>
     ```
-2.  **Navigate to the source directory**:
+2.  **Navigate to the project's root directory**:
     ```sh
-    cd Course-Management-System/src/main/java
+    cd Course-Management-System
     ```
 3.  **Compile the project**:
-    Use `javac` to compile all `.java` files. It's best to run this from the `java` directory to handle packages correctly.
+    From the root directory, use `javac` with the `-d` flag to compile all `.java` source files into a `bin` directory. This correctly handles all packages.
+
+    *On Linux/macOS:*
     ```sh
-    javac spring/coding/App.java spring/coding/entity/*.java spring/coding/service/*.java spring/coding/util/*.java
+    mkdir -p bin
+    find src -name "*.java" | xargs javac -d bin
     ```
-4.  **Run the application**:
-    Execute the main class from the `java` directory.
+
+    *On Windows (Command Prompt):*
     ```sh
-    java spring.coding.App
+    mkdir bin
+    dir /s /B src\\*.java > sources.txt
+    javac -d bin @sources.txt
+    del sources.txt
+    ```
+
+4.  **Run the application**:
+    Execute the main class from the root directory, making sure to specify the `bin` directory in the classpath.
+    ```sh
+    java -cp bin spring.coding.App
     ```
     You should now see the main menu in your console.
 
 ## Class Diagram
 
-*(A basic representation of the class relationships. You can generate a more detailed one with a tool like PlantUML or draw.io)*
+This diagram shows the final architecture, including the separation of UI handlers from the main App class and the dependency on repository interfaces.
 
-```
-[ Person ] <|-- [ Student ]
-[ Person ] <|-- [ Trainer ]
+```mermaid
+classDiagram
+    class App {
+        +main(String[] args)
+    }
+    class ConsoleUtil {
+        +runMenu()
+        +getIntInput()
+    }
+    class StudentMenuHandler {
+        -StudentRepository studentService
+        +handle()
+    }
+    class StudentService {
+        -List~Student~ students
+        +addStudent()
+        +findStudentById()
+    }
+    class StudentRepository {
+        <<interface>>
+        +addStudent()
+    }
+    class Student {
+        -String batch
+    }
+    class Person {
+        -int id
+        -String fName
+    }
 
-[ Student ] -- "1..*" [ Enrollment ]
-[ Course ]  -- "1..*" [ Enrollment ]
-
-[ StudentService ] --> [ Student ]
-[ CourseService ]  --> [ Course ]
-[ EnrollmentService ] --> [ Enrollment ]
-
-[ App ] --> [ StudentService ]
-[ App ] --> [ CourseService ]
-[ App ] --> [ EnrollmentService ]
+    App ..> StudentMenuHandler : creates
+    App ..> StudentService : creates
+    StudentMenuHandler ..> ConsoleUtil : uses
+    StudentMenuHandler o-- StudentRepository : depends on
+    StudentService ..|> StudentRepository : implements
+    Student --|> Person
 ```

@@ -21,7 +21,8 @@ public class EnrollmentMenuHandler {
     public void handle() {
         Map<Integer, Runnable> enrollmentMenuOptions = new LinkedHashMap<>();
         enrollmentMenuOptions.put(1, this::enrollStudent);
-        enrollmentMenuOptions.put(2, this::viewAllEnrollments);
+        enrollmentMenuOptions.put(2, this::updateEnrollmentStatus);
+        enrollmentMenuOptions.put(3, this::viewAllEnrollments);
 
         ConsoleUtil.runMenu("--- Enrollment Management ---", enrollmentMenuOptions, false);
     }
@@ -30,6 +31,26 @@ public class EnrollmentMenuHandler {
         int studentId = ConsoleUtil.getIntInput("Enter Student ID: ");
         enrollmentService.addEnrollment(1, 1, studentId, new Date(), Status.ACTIVE);
         System.out.println("Enrollment successful!");
+    }
+
+    private void updateEnrollmentStatus() {
+        int enrollmentId = ConsoleUtil.getIntInput("Enter the ID of the enrollment to update: ");
+        System.out.println("Select new status:");
+        System.out.println("1. COMPLETED");
+        System.out.println("2. CANCELLED");
+        int statusChoice = ConsoleUtil.getIntInput("Enter choice: ");
+
+        Status newStatus;
+        if (statusChoice == 1) {
+            newStatus = Status.COMPLETED;
+        } else if (statusChoice == 2) {
+            newStatus = Status.CANCELLED;
+        } else {
+            System.out.println("Invalid status choice.");
+            return;
+        }
+
+        enrollmentService.updateEnrollmentStatus(enrollmentId, newStatus);
     }
 
     private void viewAllEnrollments() {

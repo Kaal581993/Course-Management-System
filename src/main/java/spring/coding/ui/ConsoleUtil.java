@@ -29,7 +29,7 @@ public class ConsoleUtil {
             });
             System.out.printf("0. %s\n", isMainMenu ? "Exit" : "Back to Main Menu");
             System.out.print("Enter your choice: ");
-            choice = getIntInput();
+            choice = getIntInput("Enter Duration in Weeks: ");
 
             try {
                 if (options.containsKey(choice)) {
@@ -43,7 +43,7 @@ public class ConsoleUtil {
         } while (choice != 0);
     }
 
-    public static int getIntInput() {
+    public static int getIntInput(String s) {
         while (true) {
             try {
                 return Integer.parseInt(sc.nextLine());
